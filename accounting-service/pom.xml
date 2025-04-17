@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
-    <!--  Hérite du projet parent -->
     <parent>
         <groupId>com.onlinebank</groupId>
         <artifactId>online-bank</artifactId>
@@ -14,28 +12,21 @@
 
     <artifactId>accounting-service</artifactId>
     <name>Accounting Service</name>
-    <description>Microservice de gestion des comptes et opérations bancaires</description>
 
     <dependencies>
-        <!-- ✅ Spring Boot Web (REST API) -->
+        <!-- Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- ✅ MongoDB -->
+        <!-- MongoDB -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
 
-        <!-- ✅ Spring Security -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <!-- ✅ JWT -->
+        <!-- JWT -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
@@ -54,40 +45,53 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Common Module (Import unique) -->
-        <dependency>
-            <groupId>com.onlinebank</groupId>
-            <artifactId>common</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <!-- ✅ Lombok -->
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
 
-        <!-- ✅ Jakarta Validation -->
+        <!-- Validation -->
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
         </dependency>
 
-        <!-- ✅ Tests -->
+        <!-- Common -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>com.onlinebank</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.onlinebank</groupId>
+            <artifactId>auth-service</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.8.6</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Plugin Spring Boot -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
