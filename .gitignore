@@ -31,3 +31,14 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+/target
+/.idea
+*.iml
+*.log
+*.class
+/.vscode
+.env
+.DS_Store
+**/application-prod.propertie
