@@ -1,0 +1,53 @@
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: onlinebank
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+
+  auth-service:
+    build:
+      context: ./auth-service
+    container_name: auth-service
+    ports:
+      - "8081:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATA_MONGODB_URI=mongodb://root:root@mongo:27017/onlinebank?authSource=admin
+      - JWT_SECRET=U2VjdXJlS2V5Rm9ySmF2YVNwcmluZw==
+      - JWT_EXPIRATION=86400000
+    depends_on:
+      - mongo
+
+  accounting-service:
+    build:
+      context: ./accounting-service
+    container_name: accounting-service
+    ports:
+      - "8082:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATA_MONGODB_URI=mongodb://root:root@mongo:27017/onlinebank?authSource=admin
+      - JWT_SECRET=U2VjdXJlS2V5Rm9ySmF2YVNwcmluZw==
+      - JWT_EXPIRATION=86400000
+    depends_on:
+      - mongo
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    environment:
+      - ADMINER_DEFAULT_SERVER=mongo
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:
