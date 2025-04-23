@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface AccountingJournalRepository extends MongoRepository<AccountingJournal, String> {
     List<AccountingJournal> findByUserId(String userId);
+    // List<AccountingJournal> findAllByUserIdOrderByTimestampDesc(String userId);
 }
+

@@ -1,6 +1,6 @@
 package com.onlinebank.authservice.security;
 
-import com.onlinebank.authservice.model.User;
+
 import com.onlinebank.authservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,7 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service
+
+@Service("userDetailsServiceImpl")
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 

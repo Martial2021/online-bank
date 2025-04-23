@@ -1,6 +1,5 @@
 package com.onlinebank.accountingservice.security;
 
-import com.onlinebank.common.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.User;

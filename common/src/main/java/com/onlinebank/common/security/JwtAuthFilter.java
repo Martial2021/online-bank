@@ -1,5 +1,6 @@
 package com.onlinebank.common.security;
 
+
 import com.onlinebank.common.security.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -16,7 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Component
+
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 

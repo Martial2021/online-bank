@@ -7,6 +7,7 @@ import com.onlinebank.common.dto.RegisterRequest;
 import com.onlinebank.authservice.model.User;
 import com.onlinebank.authservice.service.UserServiceImpl;
 import com.onlinebank.common.dto.UserDTO;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
+@SecurityRequirement(name = "BearerAuth")
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -40,6 +42,8 @@ public class AuthController {
         User user = User.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .firstname(request.getFirstname())
+                .lastname(request.getLastname())
                 .build();
 
         userRepository.save(user);

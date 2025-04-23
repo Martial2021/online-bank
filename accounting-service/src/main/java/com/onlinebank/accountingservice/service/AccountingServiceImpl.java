@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +22,12 @@ public class AccountingServiceImpl implements AccountService {
     @Override
     public void credit(TransactionDTO dto) {
         Account account = accountRepository.findByUserId(dto.getUserId())
-                .orElseThrow(() -> new RuntimeException("Compte non trouvé pour l'utilisateur : " + dto.getUserId()));
+                .orElseGet(() -> {
+                    Account newAccount = new Account();
+                    newAccount.setUserId(dto.getUserId());
+                    newAccount.setBalance(BigDecimal.ZERO);
+                    return accountRepository.save(newAccount);
+                });
 
         account.setBalance(account.getBalance().add(dto.getAmount()));
         accountRepository.save(account);
@@ -38,7 +44,12 @@ public class AccountingServiceImpl implements AccountService {
     @Override
     public void debit(TransactionDTO dto) {
         Account account = accountRepository.findByUserId(dto.getUserId())
-                .orElseThrow(() -> new RuntimeException("Compte non trouvé pour l'utilisateur : " + dto.getUserId()));
+                .orElseGet(() -> {
+                    Account newAccount = new Account();
+                    newAccount.setUserId(dto.getUserId());
+                    newAccount.setBalance(BigDecimal.ZERO);
+                    return accountRepository.save(newAccount);
+                });
 
         if (account.getBalance().compareTo(dto.getAmount()) < 0) {
             throw new RuntimeException("Solde insuffisant");
@@ -55,4 +66,17 @@ public class AccountingServiceImpl implements AccountService {
                 .timestamp(LocalDateTime.now())
                 .build());
     }
+
+    @Override
+    public BigDecimal getBalance(String userId) {
+        return accountRepository.findByUserId(userId)
+                .map(Account::getBalance)
+                .orElseThrow(() -> new RuntimeException("Aucun compte trouvé pour l'utilisateur : " + userId));
+    }
+
+    @Override
+    public List<AccountingJournal> getJournal(String userId) {
+        return journalRepository.findByUserId(userId);
+    }
+
 }
